@@ -1,0 +1,216 @@
+/* src/components/MainLayout.css */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+}
+
+.main-layout {
+    display: flex;
+    min-height: 100vh;
+    position: relative; /* Để định vị overlay */
+}
+
+/* --- Sidebar Styles --- */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-header {
+    padding: 20px 15px;
+    text-align: center;
+    border-bottom: 1px solid #34495e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #fff;
+}
+
+.close-sidebar-btn {
+    display: none; /* Ẩn nút đóng trên desktop */
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    flex-grow: 1;
+    overflow-y: auto; /* Cho phép cuộn menu nếu quá dài */
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-menu li a:hover, .sidebar-menu li a.active {
+    background-color: #34495e;
+    color: #fff;
+    border-left-color: #e74c3c;
+}
+
+.logout-button {
+    padding: 12px 20px;
+    margin: 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- Content Area --- */
+.content-area {
+    flex: 1;
+    margin-left: 250px; /* Đẩy nội dung sang phải */
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 250px); /* Quan trọng để không bị tràn */
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+/* --- Header --- */
+.header {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    height: 60px;
+    box-sizing: border-box;
+}
+
+.menu-toggle-btn {
+    display: none; /* Ẩn nút menu trên desktop */
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #333;
+}
+
+/* --- Main Content --- */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f7f6;
+    overflow-x: hidden; /* Tránh thanh cuộn ngang toàn trang */
+}
+
+/* --- CSS CHUNG CHO CÁC NÚT --- */
+.main-content button {
+    padding: 6px 12px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-size: 0.9em;
+    white-space: nowrap; /* Giữ nút trên 1 dòng */
+}
+.edit-button, .add-button { background-color: #007bff; color: white; border: none; }
+.delete-button { background-color: #dc3545; color: white; border: none; }
+.cancel-button { background-color: #6c757d; color: white; border: none; }
+
+/* --- CSS CHO BẢNG (QUAN TRỌNG CHO MOBILE) --- */
+.main-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Giúp bảng hiển thị tốt trên mobile */
+    display: block; 
+    overflow-x: auto; 
+    white-space: nowrap; 
+}
+
+.main-content th, .main-content td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 12px 15px;
+    text-align: left;
+}
+.main-content th { background-color: #f8f9fa; }
+
+/* --- RESPONSIVE MOBILE (<= 768px) --- */
+@media (max-width: 768px) {
+    /* 1. Sidebar ẩn đi */
+    .sidebar {
+        transform: translateX(-100%); /* Đẩy sidebar ra khỏi màn hình trái */
+        width: 280px; /* Rộng hơn chút cho dễ bấm */
+    }
+
+    /* 2. Sidebar khi mở (class 'open') */
+    .sidebar.open {
+        transform: translateX(0); /* Trượt vào */
+    }
+
+    /* 3. Nút đóng sidebar hiện ra */
+    .close-sidebar-btn {
+        display: block;
+    }
+
+    /* 4. Content Area mở rộng full màn hình */
+    .content-area {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* 5. Hiện nút Menu trên header */
+    .menu-toggle-btn {
+        display: block;
+    }
+
+    /* 6. Overlay làm tối màn hình */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999; /* Dưới sidebar nhưng trên content */
+    }
+
+    /* Form trên mobile */
+    .main-content form input, 
+    .main-content form select, 
+    .main-content form textarea {
+        width: 100%; /* Input full chiều rộng */
+        box-sizing: border-box;
+    }
+    
+    .main-content button {
+        margin-bottom: 5px; /* Nút cách nhau ra */
+    }
+}
