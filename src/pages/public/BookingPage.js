@@ -175,7 +175,7 @@ function BookingPage() {
                     <div className="form-group-contact">
                         <label htmlFor="hlv_id">Chọn HLV (Tùy chọn)</label>
                         <select name="hlv_id" value={formData.hlv_id} onChange={handleChange}>
-                            <option value="">-- Để hệ thống tự sắp xếp --</option>
+                            <option value="">Không chọn huấn luyện viên</option>
                             {trainers.map(t => (
                                 <option key={t.hlv_id} value={t.hlv_id}>{t.ho_ten}</option>
                             ))}
