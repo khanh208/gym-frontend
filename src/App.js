@@ -154,7 +154,7 @@ function App() {
                     <Route path="faqs/:id/edit" element={<FaqFormPage />} />
                     
                     <Route path="contacts" element={<ContactListPage />} />
-                    <Route path="admin/walk-in" element={<WalkInTicketPage />} />
+                    <Route path="walk-in" element={<WalkInTicketPage />} />
                     
                     <Route path="gallery" element={<GalleryListPage />} />
                     <Route path="gallery/new" element={<GalleryFormPage />} />
