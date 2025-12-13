@@ -64,7 +64,7 @@ function MainLayout() {
                             <li><NavLink to={`${basePath}/faqs`} onClick={closeSidebar}>Quản lý FAQs</NavLink></li>
                             <li><NavLink to={`${basePath}/contacts`} onClick={closeSidebar}>Quản lý Liên hệ</NavLink></li>
                             <li><NavLink to={`${basePath}/gallery`} onClick={closeSidebar}>Quản lý Gallery</NavLink></li>
-                            <li className={location.pathname === '/admin/walk-in' ? 'active' : ''}><Link to="/admin/walk-in"><i className="fas fa-ticket-alt"></i> {/* Icon vé */}<span>Bán Vé Lẻ</span></Link></li>
+                            <li><NavLink to={`${basePath}/Walk-in`} onClick={closeSidebar}>Bán vé lẻ</NavLink> </li>
                         </>
                     )}
                     {/* Trainer Links */}
