@@ -53,7 +53,6 @@ const WalkInHistoryPage = () => {
                                         <th>Dịch vụ / Gói</th>
                                         <th>Chi nhánh</th>
                                         <th>Loại hình</th>
-                                        <th>Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,7 +73,6 @@ const WalkInHistoryPage = () => {
                                                         <span className="badge badge-success">Hội viên</span>
                                                     )}
                                                 </td>
-                                                <td>{item.trang_thai}</td>
                                             </tr>
                                         ))
                                     ) : (
