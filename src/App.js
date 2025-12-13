@@ -155,6 +155,7 @@ function App() {
                     
                     <Route path="contacts" element={<ContactListPage />} />
                     <Route path="walk-in" element={<WalkInTicketPage />} />
+                    <Route path="check-in-history" element={<WalkInHistoryPage />} />
                     
                     <Route path="gallery" element={<GalleryListPage />} />
                     <Route path="gallery/new" element={<GalleryFormPage />} />
