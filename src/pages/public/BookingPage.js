@@ -124,7 +124,11 @@ function BookingPage() {
         <div className="booking-page-container">
             <h1 className="booking-page-title">Đặt lịch hẹn</h1>
             <p className="booking-page-subtitle">Chọn dịch vụ, HLV và thời gian phù hợp với bạn.</p>
-            
+            {myPackages.length === 0 && !loading && (
+    <div style={{ backgroundColor: '#fff3cd', color: '#856404', padding: '10px', borderRadius: '5px', marginBottom: '15px' }}>
+        <strong>Lưu ý:</strong> Bạn chưa có gói tập nào đang hoạt động. Vui lòng mua gói tập trước khi đặt lịch.
+    </div>
+)}
             <div className="booking-form-wrapper">
                 {/* Hiển thị lỗi tổng */}
                 {error && <p className="contact-error-message">{error}</p>}
