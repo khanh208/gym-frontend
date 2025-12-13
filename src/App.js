@@ -51,6 +51,7 @@ import GalleryFormPage from './pages/admin/GalleryFormPage';
 import CustomerPackageListPage from './pages/admin/CustomerPackageListPage';
 import CheckInPage from './pages/admin/CheckInPage';
 import WalkInTicketPage from './pages/admin/WalkInTicketPage';
+import WalkInHistoryPage from './pages/admin/WalkInHistoryPage';
 // --- PAGES: TRAINER ---
 import TrainerProfilePage from './pages/trainer/TrainerProfilePage';
 import TrainerBookingListPage from './pages/trainer/TrainerBookingListPage';
