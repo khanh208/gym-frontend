@@ -71,7 +71,7 @@ function CustomerPackageListPage() {
     return (
         <div>
             <h2>Quản lý Gói của Khách hàng</h2>
-            <p>Nơi theo dõi và quản lý các gói tập đã bán.</p>
+            
 
             {loading && <p>Đang tải...</p>}
             {error && <p style={{ color: 'red' }}>Lỗi: {error}</p>}
