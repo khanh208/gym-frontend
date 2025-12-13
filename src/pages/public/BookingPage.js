@@ -92,6 +92,13 @@ function BookingPage() {
         setError('');
         setSuccess('');
 
+        const selectedTime = new Date(formData.thoi_gian);
+        const now = new Date();
+        if (selectedTime < now) {
+        setError('Thời gian không hợp lệ. Vui lòng chọn thời gian trong tương lai.');
+        setLoading(false);
+        return; 
+        }
         const token = localStorage.getItem('accessToken');
         if (!token) {
             setError('Bạn cần đăng nhập để đặt lịch.');
@@ -119,6 +126,11 @@ function BookingPage() {
     if (loading) { // Chỉ hiển thị loading chung
         return <div className="page-container" style={{ color: 'white', textAlign: 'center', paddingTop: '50px' }}><p>Đang tải dữ liệu...</p></div>;
     }
+    const getCurrentDateTimeLocal = () => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
+    };
 
     return (
         <div className="booking-page-container">
@@ -191,6 +203,7 @@ function BookingPage() {
                             name="thoi_gian" 
                             value={formData.thoi_gian} 
                             onChange={handleChange} 
+                            min={getCurrentDateTimeLocal()}
                             required 
                         />
                     </div>
