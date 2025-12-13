@@ -64,7 +64,7 @@ function MainLayout() {
                             <li><NavLink to={`${basePath}/faqs`} onClick={closeSidebar}>Quản lý FAQs</NavLink></li>
                             <li><NavLink to={`${basePath}/contacts`} onClick={closeSidebar}>Quản lý Liên hệ</NavLink></li>
                             <li><NavLink to={`${basePath}/gallery`} onClick={closeSidebar}>Quản lý Gallery</NavLink></li>
-                            <li><NavLink to={`${basePath}/walk-in`} onClick={closeSidebar}>Bán vé lẻ</NavLink> </li> 
+                            <li><NavLink to={`${basePath}/walk-in`} onClick={closeSidebar}>Bán vé lẻ</NavLink> </li>
                             <li><NavLink to={`${basePath}/check-in-history`} onClick={closeSidebar}>Lịch sử Ra Vào</NavLink> </li>
                         </>
                     )}
