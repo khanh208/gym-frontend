@@ -50,7 +50,7 @@ import GalleryListPage from './pages/admin/GalleryListPage';
 import GalleryFormPage from './pages/admin/GalleryFormPage';
 import CustomerPackageListPage from './pages/admin/CustomerPackageListPage';
 import CheckInPage from './pages/admin/CheckInPage';
-
+import WalkInTicketPage from './pages/admin/WalkInTicketPage';
 // --- PAGES: TRAINER ---
 import TrainerProfilePage from './pages/trainer/TrainerProfilePage';
 import TrainerBookingListPage from './pages/trainer/TrainerBookingListPage';
@@ -154,6 +154,7 @@ function App() {
                     <Route path="faqs/:id/edit" element={<FaqFormPage />} />
                     
                     <Route path="contacts" element={<ContactListPage />} />
+                    <Route path="admin/walk-in" element={<WalkInTicketPage />} />
                     
                     <Route path="gallery" element={<GalleryListPage />} />
                     <Route path="gallery/new" element={<GalleryFormPage />} />
