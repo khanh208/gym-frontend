@@ -80,7 +80,7 @@ function TrainerFormPage() {
         }));
     };
 
-    // --- HÀM XỬ LÝ UPLOAD ẢNH ---
+    // --- HÀM XỬ LÝ UPLOAD ẢNH (ĐÃ SỬA LỖI) ---
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -99,13 +99,18 @@ function TrainerFormPage() {
                 }
             });
             
-            // Server trả về đường dẫn tương đối: /uploads/image-xxx.jpg
-            // Ta lưu đường dẫn này vào state formData
-            setFormData(prev => ({ ...prev, hinh_anh: res.data.filePath }));
-            alert("Upload ảnh thành công!");
+            // --- SỬA LỖI TẠI ĐÂY: filePath -> imagePath ---
+            if (res.data && res.data.imagePath) {
+                setFormData(prev => ({ ...prev, hinh_anh: res.data.imagePath }));
+                alert("Upload ảnh thành công!");
+            } else {
+                console.warn("Backend trả về:", res.data);
+                alert("Upload thành công nhưng không nhận được đường dẫn ảnh.");
+            }
+
         } catch (err) {
             console.error("Lỗi upload:", err);
-            alert("Upload ảnh thất bại. Vui lòng thử lại.");
+            alert("Upload ảnh thất bại: " + (err.response?.data?.message || err.message));
         } finally {
             setUploading(false);
         }
@@ -115,7 +120,10 @@ function TrainerFormPage() {
     const getPreviewUrl = (path) => {
         if (!path) return '';
         if (path.startsWith('http')) return path; // Ảnh cũ (link online)
-        return `${API_URL}${path}`; // Ảnh mới (link từ server mình)
+        // Loại bỏ dấu / ở cuối API_URL nếu có để tránh trùng //
+        const baseUrl = API_URL.replace(/\/$/, '');
+        const imgPath = path.startsWith('/') ? path : `/${path}`;
+        return `${baseUrl}${imgPath}`;
     };
 
     // Xử lý submit form (Lưu thông tin HLV)
@@ -208,6 +216,7 @@ function TrainerFormPage() {
                                                 src={getPreviewUrl(formData.hinh_anh)} 
                                                 alt="Preview" 
                                                 style={{ height: '150px', objectFit: 'cover', borderRadius: '5px' }} 
+                                                onError={(e) => e.target.src = 'https://via.placeholder.com/150?text=Error'}
                                             />
                                         </div>
                                     )}
