@@ -10,6 +10,9 @@ function TrainerFormPage() {
     // Xác định đang sửa hay tạo mới
     const isEditing = id !== undefined && id !== 'new';
 
+    // Đường dẫn API (Backend)
+    const API_URL = 'https://neofitness-api.onrender.com';
+
     // State cho dữ liệu form
     const [formData, setFormData] = useState({
         chi_nhanh_id: '',
@@ -17,20 +20,19 @@ function TrainerFormPage() {
         mo_ta: '',
         chung_chi: '',
         kinh_nghiem: 0,
-        hinh_anh: '',
+        hinh_anh: '', // Sẽ lưu đường dẫn file sau khi upload (VD: /uploads/img-123.jpg)
         trang_thai: 'dang hoat dong',
-        // THÊM: Trường cho tài khoản (chỉ dùng khi tạo mới)
         email: '',
         password: ''
     });
 
     // State cho danh sách chi nhánh (dropdown)
     const [branches, setBranches] = useState([]);
-    // State loading khi submit
-    const [loading, setLoading] = useState(false);
-    // State loading ban đầu (fetch data)
-    const [initialLoading, setInitialLoading] = useState(true);
-    // State cho thông báo lỗi
+    
+    // Các state loading
+    const [loading, setLoading] = useState(false); // Loading khi submit form
+    const [uploading, setUploading] = useState(false); // Loading khi đang upload ảnh
+    const [initialLoading, setInitialLoading] = useState(true); // Loading khi tải dữ liệu ban đầu
     const [error, setError] = useState('');
 
     // Fetch dữ liệu cần thiết (chi nhánh và dữ liệu HLV nếu sửa)
@@ -38,16 +40,15 @@ function TrainerFormPage() {
         const fetchData = async () => {
             setError('');
             try {
-                // Lấy danh sách chi nhánh cho dropdown
-                const branchRes = await axios.get('https://neofitness-api.onrender.com/api/branches');
+                // Lấy danh sách chi nhánh
+                const branchRes = await axios.get(`${API_URL}/api/branches`);
                 setBranches(branchRes.data);
 
                 // Nếu đang sửa, fetch dữ liệu HLV hiện tại
                 if (isEditing) {
-                    const trainerRes = await axios.get(`https://neofitness-api.onrender.com/api/trainers/${id}`);
+                    const trainerRes = await axios.get(`${API_URL}/api/trainers/${id}`);
                     const data = trainerRes.data;
                     
-                    // Cập nhật state formData với dữ liệu HLV lấy về
                     setFormData({
                         chi_nhanh_id: data.chi_nhanh_id || '',
                         ho_ten: data.ho_ten || '',
@@ -56,13 +57,12 @@ function TrainerFormPage() {
                         kinh_nghiem: data.kinh_nghiem || 0,
                         hinh_anh: data.hinh_anh || '',
                         trang_thai: data.trang_thai || 'dang hoat dong',
-                        // Khi sửa, không load email/pass vào form để tránh lộ hoặc gửi nhầm
-                        email: data.email || '', // Có thể hiển thị read-only nếu muốn
+                        email: data.email || '',
                         password: '' 
                     });
                 }
             } catch (err) {
-                setError('Không thể tải dữ liệu cần thiết (Chi nhánh/HLV).');
+                setError('Không thể tải dữ liệu cần thiết.');
                 console.error("Fetch error:", err);
             } finally {
                 setInitialLoading(false);
@@ -71,7 +71,7 @@ function TrainerFormPage() {
         fetchData();
     }, [id, isEditing]);
 
-    // Xử lý thay đổi input
+    // Xử lý thay đổi input text/number
     const handleChange = (e) => {
         const { name, value, type } = e.target;
         setFormData(prevData => ({
@@ -80,7 +80,45 @@ function TrainerFormPage() {
         }));
     };
 
-    // Xử lý submit form
+    // --- HÀM XỬ LÝ UPLOAD ẢNH ---
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const uploadData = new FormData();
+        uploadData.append('image', file);
+
+        setUploading(true);
+        try {
+            const token = localStorage.getItem('accessToken');
+            // Gọi API Upload đã tạo ở Backend
+            const res = await axios.post(`${API_URL}/api/upload`, uploadData, {
+                headers: { 
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            // Server trả về đường dẫn tương đối: /uploads/image-xxx.jpg
+            // Ta lưu đường dẫn này vào state formData
+            setFormData(prev => ({ ...prev, hinh_anh: res.data.filePath }));
+            alert("Upload ảnh thành công!");
+        } catch (err) {
+            console.error("Lỗi upload:", err);
+            alert("Upload ảnh thất bại. Vui lòng thử lại.");
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    // Hàm lấy URL ảnh đầy đủ để hiển thị Preview
+    const getPreviewUrl = (path) => {
+        if (!path) return '';
+        if (path.startsWith('http')) return path; // Ảnh cũ (link online)
+        return `${API_URL}${path}`; // Ảnh mới (link từ server mình)
+    };
+
+    // Xử lý submit form (Lưu thông tin HLV)
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -94,8 +132,8 @@ function TrainerFormPage() {
         }
 
         const url = isEditing 
-            ? `https://neofitness-api.onrender.com/api/trainers/${id}` 
-            : 'https://neofitness-api.onrender.com/api/trainers';
+            ? `${API_URL}/api/trainers/${id}` 
+            : `${API_URL}/api/trainers`;
         const method = isEditing ? 'put' : 'post';
 
         // Chuẩn bị dữ liệu gửi đi
@@ -134,7 +172,7 @@ function TrainerFormPage() {
                     <form onSubmit={handleSubmit}>
                         
                         <div className="row">
-                            {/* --- CỘT TRÁI: THÔNG TIN CÁ NHÂN --- */}
+                            {/* --- CỘT TRÁI: THÔNG TIN CÁ NHÂN & ẢNH --- */}
                             <div className="col-md-6">
                                 <h5 className="mb-3 text-primary">Thông tin cá nhân</h5>
                                 <div className="form-group mb-3">
@@ -148,6 +186,31 @@ function TrainerFormPage() {
                                         required 
                                         placeholder="Ví dụ: Nguyễn Văn A"
                                     />
+                                </div>
+
+                                {/* --- UPLOAD ẢNH --- */}
+                                <div className="form-group mb-3">
+                                    <label>Hình Ảnh (Upload từ máy)</label>
+                                    <input 
+                                        type="file" 
+                                        className="form-control" 
+                                        accept="image/*"
+                                        onChange={handleFileChange}
+                                        disabled={uploading}
+                                    />
+                                    {uploading && <small className="text-info">Đang tải ảnh lên...</small>}
+                                    
+                                    {/* Preview Ảnh */}
+                                    {formData.hinh_anh && (
+                                        <div className="mt-3 text-center p-2 border rounded bg-light">
+                                            <p className="small text-muted mb-1">Ảnh xem trước:</p>
+                                            <img 
+                                                src={getPreviewUrl(formData.hinh_anh)} 
+                                                alt="Preview" 
+                                                style={{ height: '150px', objectFit: 'cover', borderRadius: '5px' }} 
+                                            />
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="form-group mb-3">
@@ -165,18 +228,6 @@ function TrainerFormPage() {
                                             </option>
                                         ))}
                                     </select>
-                                </div>
-
-                                <div className="form-group mb-3">
-                                    <label>Link Hình Ảnh (Avatar)</label>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        name="hinh_anh" 
-                                        value={formData.hinh_anh || ''} 
-                                        onChange={handleChange} 
-                                        placeholder="https://..." 
-                                    />
                                 </div>
 
                                 <div className="form-group mb-3">
@@ -217,7 +268,7 @@ function TrainerFormPage() {
                                     />
                                 </div>
 
-                                {/* --- CHỈ HIỆN KHI TẠO MỚI --- */}
+                                {/* --- TẠO TÀI KHOẢN (Chỉ hiện khi tạo mới) --- */}
                                 {!isEditing && (
                                     <div className="bg-light p-3 rounded mt-4 border">
                                         <h5 className="mb-3 text-danger">Tạo tài khoản đăng nhập</h5>
@@ -250,7 +301,7 @@ function TrainerFormPage() {
                                     </div>
                                 )}
 
-                                {/* --- CHỈ HIỆN KHI EDIT --- */}
+                                {/* --- TRẠNG THÁI (Chỉ hiện khi Edit) --- */}
                                 {isEditing && (
                                     <div className="form-group mb-3 mt-4">
                                         <label>Trạng Thái</label>
@@ -271,7 +322,7 @@ function TrainerFormPage() {
 
                         {/* BUTTONS */}
                         <div className="text-center mt-4">
-                            <button type="submit" className="btn btn-primary btn-lg mr-3" disabled={loading}>
+                            <button type="submit" className="btn btn-primary btn-lg mr-3" disabled={loading || uploading}>
                                 {loading ? 'Đang xử lý...' : (isEditing ? 'Lưu Thay Đổi' : 'Tạo HLV Mới')}
                             </button>
                             <button 
