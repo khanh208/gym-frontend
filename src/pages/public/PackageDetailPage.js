@@ -115,10 +115,17 @@ function PackageDetailPage() {
             return;
         }
 
-        // Kiểm tra ngày kích hoạt
+        // --- THÊM: Validate dữ liệu nhập vào ---
         if (!activationDate) {
             setFormError('Vui lòng chọn ngày bạn muốn kích hoạt gói tập.');
             return;
+        }
+        if (!isFreePackage) {
+            // Nếu là gói có phí thì bắt buộc nhập tên và sđt
+            if (!formData.ho_ten || !formData.so_dien_thoai) {
+                setFormError('Vui lòng nhập đầy đủ Họ tên và Số điện thoại để ghi danh.');
+                return;
+            }
         }
 
         setActionLoading(true);
@@ -144,11 +151,18 @@ function PackageDetailPage() {
             }
 
         } else {
-            // --- LUỒNG MUA NGAY (MOMO) ---
+           // --- SỬA LUỒNG MUA NGAY (MOMO) ---
+        if (!isFreePackage) {
             try {
                 const response = await axios.post(
                     'https://neofitness-api.onrender.com/api/payments',
-                    { gia_id: id, ngay_kich_hoat: activationDate }, // Gửi kèm ngày
+                    { 
+                        gia_id: id, 
+                        ngay_kich_hoat: activationDate,
+                        // Gửi thêm thông tin khách hàng
+                        ho_ten: formData.ho_ten, 
+                        so_dien_thoai: formData.so_dien_thoai
+                    }, 
                     { headers: { 'Authorization': `Bearer ${token}` } }
                 );
                 if (response.data.payUrl) {
@@ -156,13 +170,12 @@ function PackageDetailPage() {
                 }
             } catch (err) {
                 setFormError(err.response?.data?.message || 'Không thể tạo thanh toán.');
-                console.error("Buy Now Error:", err.response?.data || err.message);
             } finally {
                 setActionLoading(false);
             }
         }
-    };
-    
+        }
+    }
     const formatCurrency = (amount) => {
         if (amount === null || amount === undefined) return '';
         const numericAmount = Number(amount);
@@ -248,41 +261,44 @@ function PackageDetailPage() {
 
                         // --- LUỒNG 2: GÓI CÓ PHÍ ---
                         <>
-                            <h3 style={{marginTop: '20px'}}>Thanh toán trực tiếp</h3>
-                            <p>Dành cho khách hàng đã có tài khoản. Thanh toán qua Momo và kích hoạt gói ngay.</p>
-                            <button 
-                                className="hero-button" 
-                                onClick={handleMainAction} 
-                                disabled={actionLoading}
-                                style={{ backgroundColor: '#4CAF50', width: '100%', marginBottom: '10px' }}
-                            >
-                                {actionLoading ? 'Đang tạo...' : (isCustomerLoggedIn ? 'Mua ngay qua Momo' : 'Đăng nhập để Mua ngay')}
-                            </button>
+                            <h3 style={{marginTop: '20px'}}>Thông tin đăng ký</h3>
                             
-                            <div className="form-divider">
-                                <span>HOẶC</span>
+                            {/* Thêm ô nhập Họ tên */}
+                            <div className="form-group-contact">
+                                <label>Họ và Tên *</label>
+                                <input 
+                                    type="text" 
+                                    name="ho_ten" 
+                                    value={formData.ho_ten} 
+                                    onChange={handleChange} 
+                                    placeholder="Nhập họ tên của bạn"
+                                />
                             </div>
 
-                            <h3>Đăng ký tư vấn (Miễn phí)</h3>
-                            <p>Để lại thông tin, chúng tôi sẽ gọi lại cho bạn.</p>
-                            <form onSubmit={handleSubmitContactForm}>
-                                <div className="form-group-contact">
-                                    <label htmlFor="ho_ten">Họ & tên *</label>
-                                    <input type="text" id="ho_ten" name="ho_ten" value={formData.ho_ten} onChange={handleChange} required />
-                                </div>
-                                <div className="form-group-contact">
-                                    <label htmlFor="so_dien_thoai">Số điện thoại *</label>
-                                    <input type="tel" id="so_dien_thoai" name="so_dien_thoai" value={formData.so_dien_thoai} onChange={handleChange} required />
-                                </div>
-                                <div className="form-group-contact">
-                                    <label htmlFor="email">Email</label>
-                                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
-                                </div>
-                                
-                                <button type="submit" className="hero-button" disabled={formLoading}>
-                                    {formLoading ? 'Đang gửi...' : 'Gửi đăng ký tư vấn'}
+                            {/* Thêm ô nhập SĐT */}
+                            <div className="form-group-contact">
+                                <label>Số điện thoại *</label>
+                                <input 
+                                    type="text" 
+                                    name="so_dien_thoai" 
+                                    value={formData.so_dien_thoai} 
+                                    onChange={handleChange} 
+                                    placeholder="Để nhân viên liên hệ khi cần"
+                                />
+                            </div>
+
+                            <div className="payment-action" style={{marginTop: '20px'}}>
+                                <h3>Thanh toán</h3>
+                                <p>Thanh toán qua ví MoMo để kích hoạt ngay.</p>
+                                <button 
+                                    className="hero-button" 
+                                    onClick={handleMainAction} 
+                                    disabled={actionLoading}
+                                    style={{ backgroundColor: '#A50064', width: '100%' }} // Màu Momo
+                                >
+                                    {actionLoading ? 'Đang xử lý...' : 'Thanh toán MoMo'}
                                 </button>
-                            </form>
+                            </div>
                         </>
                     )}
                     
