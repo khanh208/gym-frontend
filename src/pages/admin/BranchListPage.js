@@ -12,7 +12,6 @@ function BranchListPage() {
     const fetchBranches = async () => {
         setError('');
         setLoading(true);
-        const token = localStorage.getItem('accessToken');
 
         // Note: GET branches might be public, adjust headers if needed
         try {

@@ -37,7 +37,7 @@ function TrainerProfilePage() {
             try {
                 // Tạm thời fetch tất cả để tìm profile của user hiện tại
                 const allTrainersRes = await axios.get('https://neofitness-api.onrender.com/api/trainers');
-                const myProfile = allTrainersRes.data.find(t => t.tai_khoan_id == userId);
+                const myProfile = allTrainersRes.data.find(t => String(t.tai_khoan_id) === String(userId));
 
                 if (!myProfile) {
                     setError('Không tìm thấy hồ sơ huấn luyện viên liên kết.');

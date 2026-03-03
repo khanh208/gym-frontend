@@ -37,7 +37,6 @@ function BookingPage() {
         const fetchDropdownData = async () => {
             setLoading(true);
             setError(''); // Xóa lỗi cũ
-            let fetchError = false; // Cờ báo lỗi
 
             // --- SỬA LẠI LOGIC FETCH ---
             // 1. Fetch các gói của tôi (Bắt buộc)
@@ -49,12 +48,10 @@ function BookingPage() {
                 setMyPackages(activePackages);
                 if (activePackages.length === 0) {
                      setError("Bạn không có gói tập nào đang hoạt động để đặt lịch.");
-                     fetchError = true; // Đặt cờ lỗi nếu không có gói
                 }
             } catch (err) {
                 console.error("Failed to fetch My Packages:", err);
                 setError("Không thể tải các gói tập của bạn.");
-                fetchError = true;
             }
 
             // 2. Fetch dữ liệu public (Services, Branches, Trainers)
@@ -71,7 +68,6 @@ function BookingPage() {
             } catch (err) {
                 console.error("Failed to fetch public data:", err);
                 setError(prevError => prevError + " | Lỗi tải dữ liệu Dịch vụ/Chi nhánh/HLV.");
-                fetchError = true;
             }
             // --- KẾT THÚC SỬA ---
 

@@ -33,44 +33,44 @@ function CustomerProfilePage() {
         return new Intl.NumberFormat('vi-VN').format(numericAmount);
     };
     
-    // Hàm fetch gói tập
-    const fetchMyPackages = async () => {
-        const token = localStorage.getItem('accessToken');
-        const role = localStorage.getItem('userRole');
-
-        if (!token || role !== 'customer') {
-            alert('Bạn cần đăng nhập với vai trò khách hàng để xem trang này.');
-            navigate('/login', { state: { from: '/ho-so-cua-toi' } });
-            return;
-        }
-
-        setLoading(true);
-        try {
-            const response = await axios.get('https://neofitness-api.onrender.com/api/customer/my-packages', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            setMyPackages(response.data);
-
-            // Lấy khach_id từ gói đầu tiên để tạo mã QR
-            if (response.data.length > 0) {
-                setKhachId(response.data[0].khach_id);
-            }
-
-        } catch (err) {
-            setError(err.response?.data?.message || 'Không thể tải gói tập của bạn.');
-            console.error("Fetch my packages error:", err);
-            if (err.response?.status === 401 || err.response?.status === 403) {
-                navigate('/login', { state: { from: '/ho-so-cua-toi' } });
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
     // Chạy fetch khi component mount
     useEffect(() => {
+        // Hàm fetch gói tập
+        const fetchMyPackages = async () => {
+            const token = localStorage.getItem('accessToken');
+            const role = localStorage.getItem('userRole');
+
+            if (!token || role !== 'customer') {
+                alert('Bạn cần đăng nhập với vai trò khách hàng để xem trang này.');
+                navigate('/login', { state: { from: '/ho-so-cua-toi' } });
+                return;
+            }
+
+            setLoading(true);
+            try {
+                const response = await axios.get('https://neofitness-api.onrender.com/api/customer/my-packages', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setMyPackages(response.data);
+
+                // Lấy khach_id từ gói đầu tiên để tạo mã QR
+                if (response.data.length > 0) {
+                    setKhachId(response.data[0].khach_id);
+                }
+
+            } catch (err) {
+                setError(err.response?.data?.message || 'Không thể tải gói tập của bạn.');
+                console.error("Fetch my packages error:", err);
+                if (err.response?.status === 401 || err.response?.status === 403) {
+                    navigate('/login', { state: { from: '/ho-so-cua-toi' } });
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchMyPackages();
     }, [navigate]); // Thêm navigate vào dependency array
 

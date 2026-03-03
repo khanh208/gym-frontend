@@ -22,7 +22,6 @@ function ServiceFormPage() {
     useEffect(() => {
         const fetchData = async () => {
             setError('');
-            const token = localStorage.getItem('accessToken');
             try {
                 // Fetch branches for dropdown
                 const branchRes = await axios.get('https://neofitness-api.onrender.com/api/branches');

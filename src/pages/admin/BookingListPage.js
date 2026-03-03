@@ -1,13 +1,11 @@
 // src/pages/BookingListPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Using useNavigate for potential future actions
 
 function BookingListPage() {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    // const navigate = useNavigate(); // Keep navigate if you plan actions like "View Details"
 
     // Fetch all bookings
     const fetchBookings = async () => {
@@ -45,10 +43,6 @@ function BookingListPage() {
         }
         setError(''); // Clear previous errors specifically for this action if needed
 
-        // Find the specific booking to potentially update UI optimistically or revert
-        const originalBookings = [...bookings];
-        // Optimistic UI update (optional)
-        // setBookings(bookings.map(b => b.lich_id === id ? { ...b, trang_thai: newStatus } : b));
 
         try {
             await axios.put(`https://neofitness-api.onrender.com/api/bookings/${id}`,

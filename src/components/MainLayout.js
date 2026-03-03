@@ -1,6 +1,6 @@
 // src/components/MainLayout.js
 import React, { useState } from 'react';
-import { Outlet, useNavigate, Link, NavLink } from 'react-router-dom';
+import { Outlet, useNavigate, NavLink } from 'react-router-dom';
 import './MainLayout.css';
 
 function MainLayout() {

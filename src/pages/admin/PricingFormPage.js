@@ -27,7 +27,6 @@ function PricingFormPage() {
     useEffect(() => {
         const fetchData = async () => {
             setError('');
-            const token = localStorage.getItem('accessToken');
             try {
                 const [pkgRes, promoRes] = await Promise.all([
                     axios.get('https://neofitness-api.onrender.com/api/packages'),

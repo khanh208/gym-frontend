@@ -1,7 +1,6 @@
 // src/pages/public/TrainerPublicListPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Dùng Link nếu bạn muốn làm trang chi tiết HLV
 import './TrainerPublicListPage.css'; // Sẽ tạo file CSS riêng
 
 function TrainerPublicListPage() {
