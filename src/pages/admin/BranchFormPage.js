@@ -105,34 +105,34 @@ function BranchFormPage() {
 
     // Giao diện form
     return (
-        <div>
+        <div className="form-container">
             <h2>{isEditing ? 'Chỉnh sửa Chi nhánh' : 'Tạo Chi nhánh mới'}</h2>
             {/* Hiển thị lỗi nếu có */}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             
             <form onSubmit={handleSubmit}>
                 {/* Trường Tên Chi Nhánh */}
-                <div>
+                <div className="form-group">
                     <label>Tên Chi Nhánh: </label>
                     <input type="text" name="ten_chi_nhanh" value={formData.ten_chi_nhanh} onChange={handleChange} required />
                 </div>
                 {/* Trường Địa Chỉ */}
-                 <div>
+                 <div className="form-group">
                     <label>Địa Chỉ: </label>
                     <textarea name="dia_chi" value={formData.dia_chi} onChange={handleChange} required />
                 </div>
                 {/* Trường Số Điện Thoại */}
-                 <div>
+                 <div className="form-group">
                     <label>Số Điện Thoại: </label>
                     <input type="text" name="so_dien_thoai" value={formData.so_dien_thoai || ''} onChange={handleChange} />
                 </div>
                 {/* Trường Giờ Mở Cửa */}
-                 <div>
+                 <div className="form-group">
                     <label>Giờ Mở Cửa: </label>
                     <input type="text" name="gio_mo_cua" value={formData.gio_mo_cua || ''} onChange={handleChange} />
                 </div>
                 {/* Trường Trạng Thái */}
-                 <div>
+                 <div className="form-group">
                     <label>Trạng Thái: </label>
                      <select name="trang_thai" value={formData.trang_thai} onChange={handleChange}>
                         <option value="dang hoat dong">Đang hoạt động</option>
@@ -140,14 +140,16 @@ function BranchFormPage() {
                         {/* Thêm các trạng thái khác nếu cần */}
                     </select>
                 </div>
-                {/* Nút Submit */}
-                <button type="submit" className="add-button" disabled={loading || initialLoading}>
-                    {loading ? 'Đang lưu...' : (isEditing ? 'Lưu thay đổi' : 'Tạo mới')}
-                </button>
-                {/* Nút Hủy */}
-                 <button type="button" className="cancel-button" onClick={() => navigate('/admin/branches')} disabled={loading}>
-                    Hủy
-                </button>
+                <div className="form-actions">
+                    {/* Nút Submit */}
+                    <button type="submit" className="add-button" disabled={loading || initialLoading}>
+                        {loading ? 'Đang lưu...' : (isEditing ? 'Lưu thay đổi' : 'Tạo mới')}
+                    </button>
+                    {/* Nút Hủy */}
+                    <button type="button" className="cancel-button" onClick={() => navigate('/admin/branches')} disabled={loading}>
+                        Hủy
+                    </button>
+                </div>
             </form>
         </div>
     );

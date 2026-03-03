@@ -152,24 +152,6 @@
     margin: 5px 0 0 0;
 }
 
-/* Responsive cho Section HLV */
-@media (max-width: 992px) {
-    .trainer-list {
-        grid-template-columns: 1fr 1fr; /* 2 cột trên tablet */
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-section {
-        flex-direction: column; /* Xếp chồng trên mobile */
-    }
-    .section-subtitle {
-        font-size: 2em;
-    }
-    .trainer-list {
-        grid-template-columns: 1fr; /* 1 cột trên mobile */
-    }
-}
 .pricing-section {
     background-color: #000; /* Nền đen tuyền cho section này */
 }
@@ -298,15 +280,6 @@
     color: #d32f2f;
 }
 
-/* Responsive cho Section Giá */
-@media (max-width: 992px) {
-    .pricing-list {
-        grid-template-columns: 1fr; /* 1 cột trên tablet/mobile */
-    }
-    .pricing-card.featured {
-        transform: scale(1); /* Bỏ phóng to trên mobile */
-    }
-}
 .steps-section {
     background-color: #1a1a1a; /* Nền tối giống các section khác */
 }
@@ -346,19 +319,6 @@
     color: #ccc;
     line-height: 1.6;
     margin: 0;
-}
-
-/* Responsive cho Section "4 Bước" */
-@media (max-width: 992px) {
-    .steps-grid {
-        grid-template-columns: 1fr 1fr; /* 2 cột trên tablet */
-    }
-}
-
-@media (max-width: 768px) {
-    .steps-grid {
-        grid-template-columns: 1fr; /* 1 cột trên mobile */
-    }
 }
 /* --- CSS cho Section "FAQs" --- */
 .faq-section {
@@ -450,16 +410,6 @@
     background-color: #eee;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .cta-container {
-        flex-direction: column;
-        text-align: center;
-    }
-    .cta-action {
-        margin-top: 30px;
-    }
-}
 .popup-overlay {
     position: fixed; /* Hiển thị đè lên mọi thứ */
     top: 0;
@@ -560,7 +510,67 @@
     background-color: #d32f2f;
     border-color: #d32f2f;
     color: #fff;
-}   
+}
+
+/* --- RESPONSIVE STYLES --- */
+
+/* Tablet view (<= 992px) */
+@media (max-width: 992px) {
+    .trainer-list,
+    .pricing-list,
+    .package-list-grid,
+    .trainer-list-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cột */
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr 1fr; /* 2 cột */
+    }
+
+    .pricing-card.featured {
+        transform: scale(1); /* Bỏ phóng to trên tablet/mobile để tránh tràn layout */
+    }
+}
+
+/* Mobile view (<= 768px) */
+@media (max-width: 768px) {
+    .trainer-list,
+    .pricing-list,
+    .steps-grid,
+    .package-list-grid,
+    .trainer-list-grid {
+        grid-template-columns: 1fr; /* 1 cột */
+    }
+
+    .hero-section {
+        height: auto; /* Chiều cao tự động */
+        min-height: 450px; /* Chiều cao tối thiểu */
+        padding: 60px 0; /* Thêm padding */
+    }
+
+    .hero-content h1 {
+        font-size: 2.5em; /* Điều chỉnh lại cỡ chữ */
+    }
+
+    .section-subtitle {
+        font-size: 2em;
+    }
+
+    .cta-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px;
+    }
+
+    .cta-action {
+        margin-top: 30px;
+    }
+
+    .popup-modal {
+        padding: 30px 20px;
+        width: 95%;
+    }
+}
 @media (max-width: 992px) {
     /* Tablet: 2 cột */
     .pricing-list, 
@@ -599,4 +609,3 @@
         margin-top: 20px;
     }
 }
-

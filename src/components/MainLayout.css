@@ -142,6 +142,43 @@ body {
 .delete-button { background-color: #dc3545; color: white; border: none; }
 .cancel-button { background-color: #6c757d; color: white; border: none; }
 
+/* --- CSS CHO FORM CHUNG (ADMIN) --- */
+.form-container {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 800px; /* Giới hạn chiều rộng trên desktop */
+    margin: 0 auto; /* Căn giữa form */
+}
+
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px; /* Khoảng cách giữa các trường */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end; /* Đẩy nút về bên phải */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
 /* --- CSS CHO BẢNG (QUAN TRỌNG CHO MOBILE) --- */
 .main-content table {
     width: 100%;
@@ -207,10 +244,22 @@ body {
     .main-content form select, 
     .main-content form textarea {
         width: 100%; /* Input full chiều rộng */
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
         box-sizing: border-box;
     }
     
     .main-content button {
         margin-bottom: 5px; /* Nút cách nhau ra */
+    }
+
+    /* Sửa lại layout nút trên mobile */
+    .form-actions {
+        flex-direction: column; /* Xếp chồng nút */
+    }
+
+    .form-actions button {
+        width: 100%;
     }
 }

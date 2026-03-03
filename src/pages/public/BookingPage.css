@@ -1,74 +1,100 @@
 /* src/pages/public/BookingPage.css */
 
 .booking-page-container {
-    max-width: 800px; /* Form hẹp hơn */
+    max-width: 800px;
     margin: 40px auto;
-    padding: 20px 5%;
+    padding: 20px;
     color: #fff;
 }
 
 .booking-page-title {
-    font-size: 2.5em;
-    font-weight: 700;
     text-align: center;
+    font-size: 2.5em;
+    font-weight: 800;
     margin-bottom: 10px;
 }
 
 .booking-page-subtitle {
+    text-align: center;
     font-size: 1.1em;
     color: #ccc;
-    text-align: center;
     margin-bottom: 40px;
 }
 
 .booking-form-wrapper {
-    background-color: #1a1a1a;
-    padding: 30px;
-    border-radius: 10px;
+    background-color: #1e1e1e;
+    padding: 30px 40px;
+    border-radius: 8px;
+    border: 1px solid #333;
 }
 
-/* Tái sử dụng CSS từ ContactPage/FaqPage */
-.booking-form-wrapper .form-group-contact {
+/* Các class này được dùng chung với các trang khác như PackageDetail */
+.form-group-contact {
     margin-bottom: 20px;
 }
-.booking-form-wrapper .form-group-contact label {
+
+.form-group-contact label {
     display: block;
-    color: #ccc;
     margin-bottom: 8px;
-    font-size: 0.9em;
+    font-weight: 600;
+    color: #ddd;
 }
-.booking-form-wrapper .form-group-contact input,
-.booking-form-wrapper .form-group-contact select {
+
+.form-group-contact select,
+.form-group-contact input {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #444;
-    background-color: #2c2c2c;
-    color: #fff;
+    padding: 12px;
+    background-color: #333;
+    border: 1px solid #555;
     border-radius: 5px;
+    color: #fff;
     font-size: 1em;
-    font-family: inherit;
     box-sizing: border-box;
 }
 
-/* CSS riêng cho input datetime */
-.booking-form-wrapper .form-group-contact input[type="datetime-local"] {
-    color-scheme: dark; /* Đảm bảo lịch/đồng hồ có nền tối */
+.form-group-contact input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8); /* Làm cho icon lịch màu xám trắng, dễ nhìn hơn */
+    cursor: pointer;
 }
 
+.contact-error-message {
+    background-color: #4d1a20;
+    color: #ffc8d0;
+    border: 1px solid #d32f2f;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.contact-success-message {
+    background-color: #1b3d2f;
+    color: #c3f0de;
+    border: 1px solid #4CAF50;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Nút submit tái sử dụng từ HomePage.css nhưng có thể ghi đè */
 .booking-form-wrapper .hero-button {
     width: 100%;
     margin-top: 10px;
+    background-color: #d32f2f;
 }
 
-.booking-form-wrapper .contact-success-message,
-.booking-form-wrapper .contact-error-message {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-.booking-form-wrapper .contact-success-message {
-    color: #4CAF50;
-}
-.booking-form-wrapper .contact-error-message {
-    color: #f44336;
+@media (max-width: 768px) {
+    .booking-page-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .booking-page-title {
+        font-size: 2em;
+    }
+
+    .booking-form-wrapper {
+        padding: 20px;
+    }
 }
