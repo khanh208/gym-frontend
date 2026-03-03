@@ -1,7 +1,7 @@
 // src/pages/public/PackageDetailPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './PackageDetailPage.css';
 
 function PackageDetailPage() {
@@ -17,7 +17,6 @@ function PackageDetailPage() {
 
     // State cho form đăng ký tư vấn
     const [formData, setFormData] = useState({ ho_ten: '', so_dien_thoai: '', email: '' });
-    const [formLoading, setFormLoading] = useState(false);
     
     // State cho Lỗi/Thành công (dùng chung cho cả 3 luồng)
     const [formError, setFormError] = useState('');
@@ -69,43 +68,6 @@ function PackageDetailPage() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    // --- HÀM SUBMIT TƯ VẤN (Gói có phí) ---
-    const handleSubmitContactForm = async (e) => {
-        e.preventDefault();
-        // Kiểm tra ngày kích hoạt cho luồng tư vấn
-        if (!activationDate) {
-            setFormError('Vui lòng chọn ngày bạn muốn kích hoạt gói tập.');
-            return;
-        }
-        setFormLoading(true);
-        setFormError('');
-        setFormSuccess('');
-
-        const noiDungDangKy = `
-            KHÁCH HÀNG ĐĂNG KÝ TƯ VẤN GÓI TẬP:
-            - Gói: ${pricePackage.ten_goi_tap_full || pricePackage.ten_goi_tap} (ID: ${pricePackage.gia_id})
-            - Ngày muốn kích hoạt: ${activationDate}
-            - Giá: ${formatCurrency(pricePackage.gia_cuoi_cung)} VND
-        `;
-
-        const contactData = {
-            ho_ten: formData.ho_ten,
-            so_dien_thoai: formData.so_dien_thoai,
-            email: formData.email,
-            noi_dung: noiDungDangKy
-        };
-
-        try {
-            await axios.post('https://neofitness-api.onrender.com/api/contacts', contactData);
-            setFormSuccess('Đăng ký tư vấn thành công! Chúng tôi sẽ liên hệ với bạn ngay.');
-            setFormData({ ho_ten: '', so_dien_thoai: '', email: '' });
-            setActivationDate(''); // Reset ngày
-        } catch (err) {
-            setFormError(err.response?.data?.message || 'Gửi đăng ký thất bại. Vui lòng thử lại.');
-        } finally {
-            setFormLoading(false);
-        }
-    };
     
     // --- HÀM XỬ LÝ NÚT CHÍNH (Mua ngay HOẶC Nhận miễn phí) ---
     const handleMainAction = async () => {

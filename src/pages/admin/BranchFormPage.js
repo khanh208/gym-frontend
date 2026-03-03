@@ -31,7 +31,6 @@ function BranchFormPage() {
         if (isEditing) { 
             const fetchBranchData = async () => {
                 setError(''); // Xóa lỗi cũ
-                const token = localStorage.getItem('accessToken');
                 try {
                     console.log(`Fetching data for branch ID: ${id}`); // Log để debug
                     const response = await axios.get(`https://neofitness-api.onrender.com/api/branches/${id}`, {

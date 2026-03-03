@@ -1,14 +1,12 @@
 // src/pages/TrainerBookingListPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 function TrainerBookingListPage() {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     // No need to store trainerProfileId state if only used locally in fetchData
-    const navigate = useNavigate();
 
     // Fetch trainer profile ID and their bookings
     const fetchData = async () => {
