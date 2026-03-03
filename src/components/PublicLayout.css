@@ -187,6 +187,10 @@
         top: 15px;
     }
 
+    .navbar-logo img {
+        height: 50px; /* Giảm kích thước logo trên điện thoại cho vừa vặn */
+    }
+
     /* Ẩn menu mặc định trên mobile */
     .navbar-content {
         display: none;
