@@ -183,12 +183,12 @@
     .mobile-menu-icon {
         display: block; /* Hiện nút menu */
         position: absolute;
-        right: 15px;
-        top: 14px; /* Căn giữa dọc: (56px header - ~28px icon) / 2 */
+        right: 10px;
+        top: 9px; /* Căn giữa dọc: (56px header - ~28px icon) / 2 */
     }
 
     .navbar-logo img {
-        height: 40px; /* Giảm xuống 40px theo yêu cầu */
+        height: 30px; /* Giảm xuống 40px theo yêu cầu */
         object-fit: contain; /* Đảm bảo logo không bị méo */
     }
 
