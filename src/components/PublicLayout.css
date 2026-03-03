@@ -172,7 +172,7 @@
 /* --- RESPONSIVE (MOBILE & TABLET) --- */
 @media (max-width: 768px) {
     .public-header {
-        padding: 10px 20px;
+        padding: 8px 15px; /* Giảm padding để header cao khoảng 56px */
     }
 
     .navbar-container {
@@ -183,12 +183,13 @@
     .mobile-menu-icon {
         display: block; /* Hiện nút menu */
         position: absolute;
-        right: 20px;
-        top: 15px;
+        right: 15px;
+        top: 14px; /* Căn giữa dọc: (56px header - ~28px icon) / 2 */
     }
 
     .navbar-logo img {
-        height: 50px; /* Giảm kích thước logo trên điện thoại cho vừa vặn */
+        height: 40px; /* Giảm xuống 40px theo yêu cầu */
+        object-fit: contain; /* Đảm bảo logo không bị méo */
     }
 
     /* Ẩn menu mặc định trên mobile */
